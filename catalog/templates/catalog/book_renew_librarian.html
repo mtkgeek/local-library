@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div style="text-align:center;">
+  <div class="card text-center mt-3 mb-2" style="width: 40%; display: inline-block">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <h4>Renew: {{book_instance.book.title}}</h4>
+      </li>
+      <li class="list-group-item"><strong>Borrower: {{book_instance.borrower}}</strong></li>
+      <li class="list-group-item">
+        <p>{% if book_instance.is_overdue %} class="text-danger"{% endif %}Due date: {{book_instance.due_back}}</p>
+        </h4>
+      </li>
+    </ul>
+    <form class="text-center border border-light p-5" method="post" action="">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% if form.errors %}
+      <p style="text-align: center;" class="text-danger"><strong>Please check your input and try again.</strong></p>
+      {% endif %}
+      {% if form.renewal_date.errors %}
+      {% for error in form.renewal_date.errors %}
+      <p class="text-danger">{{ error }}</p>
+      {% endfor %}
+      {% endif %}
+      <input type="text" name="renewal_date" value="" required id="id_renewal_date" autofocus class="form-control mb-4"
+        placeholder="Renewal Date between now and 4weeks- YYYY-MM-DD">
+      <button class="btn btn-block btn-secondary my-4" type="submit">Renew</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

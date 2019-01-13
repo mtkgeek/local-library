@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="card text-center mb-1">
+    <div class="card-header">
+      Borrowed Books
+    </div>
+    {% if bookinstance_list %}
+    <ul class="list-group list-group-flush">
+    {% for bookinst in bookinstance_list %}
+      <li class="list-group-item {% if bookinst.is_overdue %}text-danger{% endif %}">
+     <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}</a> ({{ bookinst.due_back }})
+     </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        <p><strong>There are no books borrowed.</strong></p>
+      {% endif %}
+  </div>      
+{% endblock %}
+

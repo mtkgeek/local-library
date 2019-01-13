@@ -1,0 +1,26 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<div style="text-align: center;">
+
+  <div class="card mb-5 mt-5" style="width: 50%; display: inline-block">
+  
+          <h6 class="card-header white-text text-center py-4" style="background-color: #24355C;">
+              <strong>Are you sure you want to delete the book: {{ book }}?</strong>
+          </h6>
+      
+          <div class="card-body px-lg-5 pt-5">
+      
+              <!-- Default form to add authors -->
+  <form class="text-center p-5" method="post" action="">
+  
+      {% csrf_token %}
+          <!-- Submit button -->
+          <button class="btn btn-block btn-danger my-4" type="submit">Yes, delete.</button>
+      
+        </form>
+        </div>
+        </div>
+
+{% endblock %}

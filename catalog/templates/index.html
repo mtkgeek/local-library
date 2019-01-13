@@ -1,0 +1,22 @@
+{% extends "base_generic.html" %}
+
+
+{% block content %}
+
+<div class="mt-5 mb-5" style="text-align: center;">
+
+<div class="card text-center" style="width: 18rem; display: inline-block">
+    <div class="card-header">
+        Inventory
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Books:</strong> {{ num_books }}</li>
+        <li class="list-group-item"><strong>Copies:</strong> {{ num_instances }}</li>
+        <li class="list-group-item"><strong>Copies available:</strong> {{ num_instances_available }}</li>
+        <li class="list-group-item"><strong>Authors:</strong> {{ num_authors }}</li>
+        <li class="list-group-item">You have visited this page {{ num_visits }} times.</li>
+    </ul>
+</div>
+      
+</div>
+{% endblock %}

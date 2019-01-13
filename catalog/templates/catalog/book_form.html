@@ -1,0 +1,145 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+
+
+
+<div style="text-align: center;">
+
+    <div class="card mb-5 mt-5" style="width: 50%; display: inline-block">
+
+        <h5 class="card-header white-text text-center py-4" style="background-color: #24355C;">
+            {% if book %}
+            <strong>Update Book Details</strong>
+            {% else %}
+            <strong>Add Book</strong>
+            {% endif %}
+        </h5>
+
+        <div class="card-body px-lg-5 pt-5">
+                {{ form.non_field_errors }}
+                {% if form.errors %}
+                <p style="text-align: center;" class="text-danger"><strong>Please check your input and try again.</strong></p>
+                {% endif %}
+            <!-- Default form to add authors -->
+            <form class="text-center border border-light p-5" method="post" action="">
+
+                {% csrf_token %}
+                <!-- Title -->
+                <input type="text" value='{{book.title}}' name="title" maxlength="200" required id="id_title" autofocus
+                    class="form-control mb-4" placeholder="Title">
+
+                <!-- Author -->
+                {% if form.author.errors %}
+            {% for error in form.author.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+              {% endif %}
+                <select class="browser-default custom-select form-control mb-4" name="author"
+                    required id="id_author">
+                    {% if book %}
+                    {% for author in view.authors %}
+                    {% if book.author.id is author.id %}
+                    <option selected value="{{ book.author.id }}">{{ book.author }}</option>
+                    {% else %}
+                    <option value="{{ author.id }}">{{ author.last_name }}, {{ author.first_name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+
+                    <option selected>Pick an author</option>
+                    
+                    {% if view.authors %}
+                    {% for author in view.authors %}
+                    <option value="{{ author.id }}">{{ author.last_name }}, {{ author.first_name }}</option>
+                    {% endfor %}
+                   
+                    {% else %}
+                    <option value="">No authors available</option>
+                    {% endif %}
+                    {% endif %}
+
+                </select>
+
+
+                <!-- summary -->
+                <textarea name="summary" cols="40" rows="10" value="" maxlength="1000" required id="id_summary" class="form-control mb-4"
+                    placeholder="Enter a brief description of the book">{{ book.summary }}</textarea>
+
+                <!-- ISBN -->
+                <input type="text" name="isbn" maxlength="13" required id="id_isbn" value='{{ book.isbn }}' autofocus
+                    class="form-control mb-4" placeholder="13-character ISBN">
+                <p><a href="https://www.isbn-international.org/content/what-isbn">What is ISBN number?</a></p>
+
+                <!-- Genre -->
+                {% if form.genre.errors %}
+            {% for error in form.genre.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+              {% endif %}
+                <select class="browser-default custom-select form-control mb-4" multiple name="genre"
+                    required id="id_genre">
+                    {% if book %}
+                    {% for genre in view.all_genre %}
+                    {% if genre.id is book.genre.id %}
+                    <option selected value="{{ book.genre.id }}">{{ book.genre.name }}</option>
+                    {% else %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <option selected>Pick genre (You can select more than one)</option>
+                    
+                    {% if view.all_genre %}
+                    {% for genre in view.all_genre %}
+                    <option value="{{ genre.id }}">{{ genre.name }}</option>
+                    {% endfor %}
+                    {% else %}
+                    <option value="">No genre available</option>
+                    {% endif %}
+                    {% endif %}
+
+                </select>
+
+
+                <!-- language -->
+                {% if form.language.errors %}
+            {% for error in form.language.errors %}
+              <p class="text-danger">{{ error }}</p>
+              {% endfor %}
+              {% endif %}
+                <select class="browser-default custom-select form-control mb-4" name="language"
+                    required id="id_language">
+                    {% if book %}
+                    {% for language in view.all_language %}
+                    {% if language.id is book.language.id %}
+                    <option selected value="{{ book.language.id }}">{{ book.language }}</option>
+                    {% else %}
+                    <option value="{{ language.id }}">{{ language.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <option selected>Pick a language</option>
+                    {% if view.all_language %}
+                    {% for language in view.all_language %}
+                    <option value="{{ language.id }}">{{ language.name }}</option>
+                    {% endfor %}
+                    {% else %}
+                    <option value="">No language available</option>
+                    {% endif %}
+                    {% endif %}
+
+                </select>
+
+                <!-- Submit button -->
+                {% if book %}
+                <button class="btn btn-block my-4 btn-info" type="submit">Update</button>
+                {% else %}
+                <button class="btn btn-block my-4 btn-success" type="submit">Add</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

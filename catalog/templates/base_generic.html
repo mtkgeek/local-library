@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  {% block title %}<title>Local Library</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+<body>
+    
+<!--Main Navigation-->
+
+    {% block navbar %}
+    
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+
+      <div class="container">
+
+        <!-- Navbar brand -->
+
+        <!-- Collapse button -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+          aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Collapsible content -->
+        <div class="collapse navbar-collapse" id="basicExampleNav">
+
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'books' %}">All books</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'authors' %}">All authors</a></li>
+          </ul>
+          <!-- Links -->
+          <ul class="navbar-nav mr-auto smooth-scroll">
+            {% if user.is_authenticated %}
+              <li id="user">User: {{ user.get_username }}</li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}">Logout</a></li>   
+            {% else %}
+              <li class="nav-item"><a class="nav-link" href="{% url 'login'%}?next={{LOGIN_REDIRECT_URL}}">Login</a></li>   
+            {% endif %} 
+            </ul>
+  
+          {% if user.is_staff %}
+          <hr />
+          <ul class="navbar-nav mr-auto smooth-scroll">
+          <li class="nav-item" id="staff" style="color:green;">Staff</li>
+          {% if perms.catalog.can_mark_returned %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'all-borrowed' %}">All borrowed</a></li>
+          {% endif %}
+          </ul>
+            {% endif %}
+
+          <!--Social Icon -->
+          <ul class="navbar-nav nav-flex-icons">
+            <li class="nav-item">
+              <a class="nav-link"><i class="fa fa-facebook"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"><i class="fa fa-twitter"></i></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"><i class="fa fa-instagram"></i></a>
+            </li>
+          </ul> 
+        </div><!--social Icon-->
+        <!-- Collapsible content -->
+
+      </div>
+
+    </nav>
+    <!--/.Navbar-->
+<!--Mask-->
+<div id="intro" class="view">
+
+        <div class="mask rgba-black-strong">
+  
+          <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+  
+            <div class="row d-flex justify-content-center text-center">
+  
+              <div class="col-md-10">
+  
+                <!-- Heading -->
+                <h2 class="display-4 font-weight-bold white-text pt-5 mb-2">Local Library</h2>
+  
+                <!-- Divider -->
+                <hr class="hr-light">
+  
+                <!-- Description -->
+                <h5 class="white-text my-4">Welcome to Local Library, a very basic Django website<br> developed as a tutorial example on the Mozilla Developer Network but made prettier by yours truly<br></h5>
+                  <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Tutorial_local_library_website"><button type="button" class="btn btn-outline-white">Read more<i class="fa fa-book ml-2"></i></button></a>
+  
+              </div>
+  
+            </div>
+  
+          </div>
+  
+        </div>
+  
+      </div>
+      <!--/.Mask-->
+      {% endblock %}
+    
+    
+    
+
+      {% block content %}{% endblock %}
+  
+  
+  
+  {% block pagination %}
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+  {% endblock %} 
+  
+
+<!-- SCRIPTS -->
+  <!-- JQuery -->
+  <script type="text/javascript" src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{% static 'js/mdb.min.js' %}"></script>
+</body>
+</html>

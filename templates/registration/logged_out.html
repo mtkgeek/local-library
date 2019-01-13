@@ -1,0 +1,9 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div style="text-align: center" class="mt-5 mb-3">
+<p><strong>Logged out!</strong></p>  
+
+<a href="{% url 'login'%}"><button type="button" class="btn btn-primary">Click here to login again</button></a>
+</div>
+{% endblock %}

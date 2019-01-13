@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="card text-center mb-1">
+    <div class="card-header">
+      All Borrowed Books
+    </div>
+    {% if bookinstance_list %}
+    <ul class="list-group list-group-flush">
+    {% for bookinst in bookinstance_list %}
+      <li class="list-group-item {% if bookinst.is_overdue %}text-danger{% endif %}">
+     <a href="{% url 'book-detail' bookinst.book.pk %}">{{bookinst.book.title}}</a> ({{ bookinst.due_back }}) {% if user.is_staff %}- {{ bookinst.borrower }}{% endif %} {% if perms.catalog.can_mark_returned %}- <a href="{% url 'renew-book-librarian' bookinst.id %}"><button type="button" class="btn btn-secondary">Renew</button></a>  {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+    {% else %}
+        <p><strong>There are no books borrowed.</strong></p>
+      {% endif %}
+  </div>       
+{% endblock %}

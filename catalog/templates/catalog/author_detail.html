@@ -1,0 +1,48 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div style="text-align: center">
+
+<div class="card text-center mt-5 mb-5" style="width: 18rem; display: inline-block">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><h6>Author: <strong>{{ author }}</strong></h6></li>
+      <li class="list-group-item">{{author.date_of_birth}} - {{author.date_of_death}}</li>
+    </ul>
+  </div>
+  {% if perms.catalog.can_mark_returned %}
+  <div style="text-align: center" class="mb-5">
+  <a href="{% url 'author_delete' pk=author.id %}"><button type="button" class="btn btn-danger">Delete author</button></a>
+  <a href="{% url 'author_update' pk=author.id %}"><button type="button" class="btn btn-info">Update author</button></a>
+  </div>
+  {% endif %}
+  <div class="card text-center mt-3 mb-2" style="width: 18rem; display: inline-block">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><h4>Books</h4> </li>
+    </ul>
+  </div>
+</div>
+<div style="text-align: center">
+  {% if book in author.book_set.all %}
+{% for book in author.book_set.all %}
+<div class="card text-center mb-5" style="width: 50%; display: inline-block">
+  <div class="card-header">
+    <a href="{% url 'book-detail' book.pk %}">{{book}}</a> ({{book.bookinstance_set.all.count}})
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">{{book.summary}}</li>
+  </ul>
+</div>
+{% endfor %}
+{% else %}
+<div class="card text-center mb-5" style="width: 50%; display: inline-block">
+  <div class="card-header">
+    <strong>No Books</strong>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">No available books by the author. Please try checking again on a later date</li>
+  </ul>
+</div>
+{% endif %}
+</div>
+
+{% endblock %}
