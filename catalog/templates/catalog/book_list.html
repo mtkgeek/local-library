@@ -2,24 +2,23 @@
 
 {% block content %}
 <div class="card text-center mb-1">
-    <div class="card-header">
-      Book List
-    </div>
-    {% if book_list %}
-    <ul class="list-group list-group-flush">
-    {% for book in book_list %}
-      <li class="list-group-item"><a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})</li>
-    {% endfor %}
-    </ul>
-    {% else %}
-        <p><strong>There are no books in the library.</strong></p>
-      {% endif %}
+  <div class="card-header">
+    Book List
   </div>
-  {% if perms.catalog.can_mark_returned %}
-  <div style="text-align: center" class="mb-3 mt-3">
-  <a href="{% url 'book_create' %}"><button type="button" class="btn btn-success">Add book</button></a>
-  </div>       
+  {% if book_list %}
+  <ul class="list-group list-group-flush">
+    {% for book in book_list %}
+    <li class="list-group-item"><a href="{{ book.get_absolute_url }}">{{ book.title }}</a> ({{book.author}})</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p><strong>There are no books in the library.</strong></p>
   {% endif %}
-         
-{% endblock %}
+</div>
+{% if perms.catalog.can_mark_returned %}
+<div style="text-align: center" class="mb-3 mt-3">
+  <a href="{% url 'book_create' %}"><button type="button" class="btn btn-success">Add book</button></a>
+</div>
+{% endif %}
 
+{% endblock %}
