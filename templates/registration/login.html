@@ -2,48 +2,48 @@
 
 {% block navbar %}
 <header style="height: 10%;">
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top loginn" style="background-color: #24355C;">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top loginn" style="background-color: #24355C;">
 
-        <div class="container">
-  
-          <!-- Navbar brand -->
-  
-          <!-- Collapse button -->
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
-            aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-  
-          <!-- Collapsible content -->
-          <div class="collapse navbar-collapse" id="basicExampleNav">
-  
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto smooth-scroll">
-              <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'books' %}">All books</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url 'authors' %}">All authors</a></li>
-            </ul>
-            <!-- Links -->
-            <ul class="navbar-nav mr-auto smooth-scroll">
-              {% if user.is_authenticated %}
-                <li id="user">User: {{ user.get_username }}</li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'my-borrowed' %}">My Borrowed</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
-                
-              {% endif %} 
-              </ul>
-    
-            {% if user.is_staff %}
-            <hr />
-            <ul class="navbar-nav mr-auto smooth-scroll">
-            <li class="nav-item">Staff</li>
-            {% if perms.catalog.can_mark_returned %}
-            <li class="nav-item"><a class="nav-link" href="{% url 'all-borrowed' %}">All borrowed</a></li>
-            {% endif %}
-            </ul>
-              {% endif %}
-  
-            <!-- Social Icon  
+    <div class="container">
+
+      <!-- Navbar brand -->
+
+      <!-- Collapse button -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Collapsible content -->
+      <div class="collapse navbar-collapse" id="basicExampleNav">
+
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto smooth-scroll">
+          <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'books' %}">All books</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'authors' %}">All authors</a></li>
+        </ul>
+        <!-- Links -->
+        <ul class="navbar-nav mr-auto smooth-scroll">
+          {% if user.is_authenticated %}
+          <li id="user">User: {{ user.get_username }}</li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+
+          {% endif %}
+        </ul>
+
+        {% if user.is_staff %}
+        <hr />
+        <ul class="navbar-nav mr-auto smooth-scroll">
+          <li class="nav-item">Staff</li>
+          {% if perms.catalog.can_mark_returned %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'all-borrowed' %}">All borrowed</a></li>
+          {% endif %}
+        </ul>
+        {% endif %}
+
+        <!-- Social Icon  
             <ul class="navbar-nav nav-flex-icons">
               <li class="nav-item">
                 <a class="nav-link"><i class="fa fa-facebook"></i></a>
@@ -55,73 +55,74 @@
                 <a class="nav-link"><i class="fa fa-instagram"></i></a>
               </li>
             </ul> -->
-          </div>
-          <!-- Collapsible content -->
-  
-        </div>
-  
-      </nav>
-      <!--/.Navbar-->
+      </div>
+      <!-- Collapsible content -->
+
+    </div>
+
+  </nav>
+  <!--/.Navbar-->
 </header>
 {% endblock %}
 
 {% block content %}
-<body style="overflow:hidden;"></body>
 
+<body>
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p style="text-align: center;"><strong>This account doesn't have access to this page. To proceed,
-    please login with an account that has access or click on Home to continue with this account's privileges.</strong></p>
-    {% else %}
-    <p style="text-align: center;"><strong>Please login....</strong></p>
-    {% endif %}
-{% endif %}
+  {% if next %}
+  {% if user.is_authenticated %}
+  <p style="text-align: center;"><strong>This account doesn't have access to this page. To proceed,
+      please login with an account that has access or click on Home to continue with this account's privileges.</strong></p>
+  {% else %}
+  <p style="text-align: center;"><strong>Please login....</strong></p>
+  {% endif %}
+  {% endif %}
 
-<div style="text-align: center;">
+  <div style="text-align: center;">
 
-<div class="card mb-5" style="width: 50%; display: inline-block">
+    <div class="card mb-5" style="display: inline-block;">
 
-        <h5 class="card-header white-text text-center py-4" style="background-color: #24355C;">
-            <strong>Log in</strong>
-        </h5>
-    
-        <div class="card-body px-lg-5 pt-5">
-          {% if form.errors %}
-          <p style="text-align: center;" class="text-danger"><strong>Invalid username or password. Please try again.</strong></p>
-          {% endif %}
-            <!-- Default form login -->
-<form class="text-center border border-light p-5" method="post" action="{% url 'login' %}">
+      <h5 class="card-header white-text text-center py-4" style="background-color: #24355C;">
+        <strong>Log in</strong>
+      </h5>
 
-    {% csrf_token %}
-        <!-- Username -->
-        <input type="text" id="id_username" name="username" autofocus required class="form-control mb-4" placeholder="Username">
-    
-        <!-- Password -->
-        <input type="password" id="id_password" name="password" autofocus required  class="form-control mb-4" placeholder="Password">
-    
-        <div class="d-flex justify-content-around">
+      <div class="card-body px-lg-5 pt-5">
+        {% if form.errors %}
+        <p style="text-align: center;" class="text-danger"><strong>Invalid username or password. Please try again.</strong></p>
+        {% endif %}
+        <!-- Default form login -->
+        <form class="text-center border border-light p-5" method="post" action="{% url 'login' %}">
+
+          {% csrf_token %}
+          <!-- Username -->
+          <input type="text" id="id_username" name="username" autofocus required class="form-control mb-4" placeholder="Username">
+
+          <!-- Password -->
+          <input type="password" id="id_password" name="password" autofocus required class="form-control mb-4"
+            placeholder="Password">
+
+          <div class="d-flex justify-content-around">
             <div>
-                <!-- Forgot password -->
-                <a href="{% url 'password_reset' %}">Forgot password?</a>
+              <!-- Forgot password -->
+              <a href="{% url 'password_reset' %}">Forgot password?</a>
             </div>
-        </div>
-    
-        <!-- Sign in button -->
-        <button class="btn btn-block my-4" type="submit" style="background-color: #24355C;">Log in</button>
-        <input type="hidden" name="next" value="{{ next }}" />
-    
-        <!-- Register -->
-        <p>Not a member?
+          </div>
+
+          <!-- Sign in button -->
+          <button class="btn btn-block my-4" type="submit" style="background-color: #24355C;">Log in</button>
+          <input type="hidden" name="next" value="{{ next }}" />
+
+          <!-- Register -->
+          <p>Not a member?
             <a href="">Register</a>
-        </p>
-    
-    
-    </form>
-    <!-- Default form login -->
-        </div>
+          </p>
+
+
+        </form>
+        <!-- Default form login -->
+      </div>
     </div>
-    </div>
+  </div>
 </body>
-    
+
 {% endblock %}
